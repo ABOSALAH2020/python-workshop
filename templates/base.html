@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Python Workshop{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('home') }}">Python Workshop<span>Small projects. Better questions.</span></a>
+    <div class="scoreboard" aria-label="High scores">
+      <div><span>Personal best</span><strong>{{ personal_best if personal_best is not none else '—' }}<small> / {{ question_count }}</small></strong></div>
+      <div><span>Overall best</span><strong>{{ global_best if global_best is not none else '—' }}<small> / {{ question_count }}</small></strong></div>
+    </div>
+  </header>
+  <nav class="navigation" aria-label="Main navigation">
+    <a href="{{ url_for('home') }}">Start</a>
+    {% if current_user %}
+      <a href="{{ url_for('quiz') }}">Quiz</a>
+      <a href="{{ url_for('results') }}">My results</a>
+      <a href="{{ url_for('images') }}">Image lab</a>
+      <form action="{{ url_for('leave') }}" method="post" class="leave-form">
+        <input type="hidden" name="form_token" value="{{ form_token }}">
+        <button class="text-button" type="submit">Switch player</button>
+      </form>
+    {% endif %}
+  </nav>
+  <main>
+    {% for message in get_flashed_messages() %}<p class="notice" role="alert">{{ message }}</p>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Python Workshop · Created by {{ author_name }}</footer>
+</body>
+</html>

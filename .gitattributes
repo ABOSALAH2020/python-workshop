@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.weights binary
+*.jpg binary
+*.png binary

@@ -1,0 +1,5 @@
+{
+  "yolov4-tiny.cfg": "f858e3724962eedf3ac44e3b6cb3f0c3d9ed067c306bb831f539c578b924c90e",
+  "yolov4-tiny.weights": "cf9fbfd0f6d4869b35762f56100f50ed05268084078805f0e7989efe5bb8ca87",
+  "coco.names": "634a1132eb33f8091d60f2c346ababe8b905ae08387037aed883953b7329af84"
+}

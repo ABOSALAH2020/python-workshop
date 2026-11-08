@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Image lab · Python Workshop{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Computer vision, up close</p><h1>What’s in the picture?</h1><p>Upload a photo and see which everyday objects the model can find.</p></div>
+<section class="upload-layout">
+  <div class="start-card">
+    <h2>Try a photo</h2>
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="form_token" value="{{ form_token }}">
+      <label for="image">Choose an image</label>
+      <input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <p class="note">JPG, PNG or WebP · Up to 8 MB and 16 million pixels.</p>
+      <button class="button upload-button" type="submit">Find objects <span aria-hidden="true">→</span></button>
+    </form>
+    <form method="post" class="sample-form"><input type="hidden" name="form_token" value="{{ form_token }}"><input type="hidden" name="use_sample" value="1"><button class="text-button" type="submit">Try the sample photo instead →</button></form>
+  </div>
+  <aside class="lab-notes"><h2>A useful experiment</h2><p>Start with a clear picture of an animal, vehicle or household object. Then try a cluttered or darker photo and compare the results.</p><p>The model recognises 80 object classes. It can miss things or give a confident wrong answer. Confidence is a model score, not a guarantee.</p><p class="note">Images are processed on the server hosting this app and saved to your player record. No external image API is used.</p><a href="{{ url_for('sample_photo') }}" download>Download a sample photo</a></aside>
+</section>
+{% if analyses %}
+<section class="history"><h2>Your recent images</h2><table><thead><tr><th>Date (UTC)</th><th>Objects</th><th>Result</th></tr></thead><tbody>{% for analysis in analyses %}<tr><td>{{ analysis.created_at.strftime('%d %b %Y · %H:%M') }}</td><td>{{ analysis.detections|length }}</td><td><a href="{{ url_for('image_result', analysis_id=analysis.id) }}">View result</a></td></tr>{% endfor %}</tbody></table></section>
+{% endif %}
+{% endblock %}

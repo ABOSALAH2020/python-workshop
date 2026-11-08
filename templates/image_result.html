@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Image result · Python Workshop{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Saved to your notebook</p><h1>{{ analysis.detections|length }} object{{ '' if analysis.detections|length == 1 else 's' }} found.</h1><p>{{ analysis.created_at.strftime('%d %b %Y · %H:%M UTC') }} · {{ analysis.model_name }}</p></div>
+<div class="image-result-layout">
+  <img class="analysed-photo" src="{{ url_for('image_file', analysis_id=analysis.id) }}" alt="Uploaded photo with boxes and labels marking detected objects">
+  <section class="detection-list"><h2>The model’s predictions</h2>
+    {% if analysis.detections %}
+    <ul>{% for detection in analysis.detections %}<li><span>{{ detection.label }}</span><strong>{{ '%.1f'|format(detection.confidence * 100) }}%</strong></li>{% endfor %}</ul>
+    {% else %}<p>No objects passed the confidence threshold. Try a clearer photo with a larger object. This does not mean the image contains nothing.</p>{% endif %}
+    <p class="note">Only predictions at or above 35% are shown. The saved record includes each label, confidence and bounding box.</p>
+    <a class="button" href="{{ url_for('images') }}">Try another image <span aria-hidden="true">→</span></a>
+  </section>
+</div>
+{% endblock %}

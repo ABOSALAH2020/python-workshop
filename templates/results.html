@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}My results · Python Workshop{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Your notebook</p><h1>Every attempt counts.</h1></div>
+{% if attempts %}
+<section class="result-card">
+  <div><p class="eyebrow">Latest score</p><p class="big-score">{{ attempts[0].score }}<span> / {{ attempts[0].total }}</span></p></div>
+  <div><h2>{{ 'A clean sweep.' if attempts[0].score == attempts[0].total else 'Keep experimenting.' }}</h2><p>{{ current_user.name }}, your latest result is saved. Your best score stays put even if the next attempt is lower.</p><a class="button" href="{{ url_for('quiz') }}">Try again <span aria-hidden="true">→</span></a></div>
+</section>
+<section class="history"><h2>Recent attempts</h2><table><thead><tr><th>Date (UTC)</th><th>Score</th></tr></thead><tbody>{% for attempt in attempts %}<tr><td>{{ attempt.submitted_at.strftime('%d %b %Y · %H:%M') }}</td><td>{{ attempt.score }} / {{ attempt.total }}</td></tr>{% endfor %}</tbody></table></section>
+<details class="review"><summary>Review the ideas</summary><ol>{% for question in questions %}<li><h3>{{ question.topic }}</h3><p>{{ question.choices[question.answer] }}</p><p class="note">{{ question.explanation }}</p></li>{% endfor %}</ol></details>
+<p class="next-step">Want to try computer vision? <a href="{{ url_for('images') }}">Open Image lab →</a></p>
+{% else %}
+<section class="start-card"><h2>A fresh page.</h2><p>Take your first quiz to start a record.</p><a class="button" href="{{ url_for('quiz') }}">Take the quiz</a></section>
+{% endif %}
+{% endblock %}

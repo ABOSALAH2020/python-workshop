@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="welcome">
+  <p class="eyebrow">The Python check-in</p>
+  <h1>You’ve tried the code.<br>Now test the ideas.</h1>
+  <p class="intro">Five questions about bots, web apps and AI. Check your score, then explore how a model finds objects in your photos.</p>
+  <ul class="topics"><li>Discord</li><li>Flask</li><li>Machine learning</li><li>Computer vision</li><li>NLP</li></ul>
+  <div class="start-card">
+    <h2>What should we call you?</h2>
+    <form method="post">
+      <input type="hidden" name="form_token" value="{{ form_token }}">
+      <label for="name">Your name</label>
+      <div class="start-fields">
+        <input id="name" name="name" maxlength="40" required autocomplete="nickname" value="{{ current_user.name if current_user else '' }}" placeholder="First name or nickname">
+        <button class="button" type="submit">Start the quiz <span aria-hidden="true">→</span></button>
+      </div>
+    </form>
+    <p class="note">Your results stay with this browser. Switching players starts a separate record.</p>
+  </div>
+</section>
+{% endblock %}

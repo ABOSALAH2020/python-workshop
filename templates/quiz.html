@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Quiz · Python Workshop{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Your turn, {{ current_user.name }}</p><h1>Think it through.</h1><p>Choose one answer per question. There’s no timer.</p></div>
+<form method="post" class="quiz-form">
+  <input type="hidden" name="form_token" value="{{ form_token }}">
+  <input type="hidden" name="quiz_token" value="{{ session.get('quiz_token', '') }}">
+  {% for question in questions %}
+  <fieldset class="question">
+    <legend><span class="question-meta">{{ '%02d'|format(loop.index) }} / {{ question.topic }}</span><span>{{ question.text }}</span></legend>
+    <div class="choices">
+    {% for choice in question.choices %}
+      <label class="choice"><input type="radio" name="{{ question.id }}" value="{{ loop.index0 }}" required {% if request.form.get(question.id) == loop.index0|string %}checked{% endif %}><span>{{ choice }}</span></label>
+    {% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+  <button class="button" type="submit">Check my answers <span aria-hidden="true">→</span></button>
+</form>
+{% endblock %}
